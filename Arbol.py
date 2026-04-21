@@ -1,27 +1,5 @@
-from abc import ABC, abstractmethod
-class Componente(ABC):
-    @abstractmethod
-    def insertar(self, valor):
-        pass
 
-    @abstractmethod
-    def eliminar(self, valor):
-        pass
-
-    @abstractmethod
-    def buscar(self, valor):
-        pass
-
-    @abstractmethod
-    def recorrer(self):
-        pass
-    @abstractmethod
-    def obtener_altura(self):
-        pass
-    @abstractmethod
-    def mostrar_arbol(self):
-        pass
-
+from operaciones import Componente 
 class Hoja(Componente):
     def __init__(self, valor):
         self.valor = valor
@@ -43,6 +21,9 @@ class Hoja(Componente):
     
     def mostrar_arbol(self, nivel=0):
         print(" " * (nivel * 4) + str(self.valor))
+    
+    def obtener_nivel(self):
+        return 1
 
 class Rama(Componente):
     def __init__(self, valor):
@@ -91,6 +72,14 @@ class Rama(Componente):
         print(" " * (nivel * 4) + str(self.valor))
         for hijo in self.hijos:
             hijo.mostrar_arbol(nivel + 1)
+    
+    def obtener_nivel(self):
+        if not self.hijos:
+            return 1
+        else:
+            niveles = [hijo.obtener_nivel() for hijo in self.hijos]
+            return 1 + max(niveles)
+    
 
 # Ejemplo de uso
 raiz = Rama("A")
